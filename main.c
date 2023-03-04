@@ -17,12 +17,14 @@ typedef struct
 typedef struct
 {
     int cadNum;
-    int fabricante;
-    int modelo;
+    char fabricante[128];
+    char modelo[128];
     float cilindrada;
-    char Dono[128];
-    char problema[2048];
+    char cor[64];
     date data;
+    int ano;
+    char dono[128];
+    char problema[2048];
 }dados;
 
 
@@ -46,14 +48,8 @@ typedef struct
 
 
 /*-------------------------------</> Functions </>-------------------------------*/
-void proxtela(){
-    printf("\n\n");
-    system("pause");
-    system("cls");
-}
 
-
-// Funções de modificação de lista.
+//+-====-----===-----====-+ Funções de modificação de lista +-====-----===-----====-+/
 
 // Função para criar uma lista dinâmicamente:
 list *CreateList(){
@@ -69,8 +65,8 @@ list *CreateList(){
     }else
     { // Não houve erro! :D
         // Definindo a lista como vazia.
-        lista->inicio == NULL;
-        lista->fim == NULL;
+        lista->inicio = NULL;
+        lista->fim = NULL;
 
         return lista;
     }
@@ -93,6 +89,38 @@ void ClearList(list *lista){
     }
     free(lista);
 }
+
+//+-====-----===-----====-+ Funções de exibição +-====-----===-----====-+/
+// Função para limpar a tela:
+void proxtela(){
+    printf("\n\n");
+    system("pause");
+    system("cls");
+}
+
+
+// Função para mostrar apenas 1 moto:
+void printBikeDetails(node *bike){
+    printf("Número de cadastro da moto: %d\n", bike->moto.cadNum);
+    printf("Fabricante da moto: %s.\n", bike->moto.fabricante);
+    printf("Modelo da moto: %s.\n", bike->moto.modelo);
+    printf("Cilindradas da moto: %.2f.\n", bike->moto.cilindrada);
+    printf("Nome do dono da moto: %s.\n", bike->moto.dono);
+    printf("Problema que a moto apresentou: %s.\n", bike->moto.problema);
+    printf("Data em que a moto entrou na oficina: %d/%d/%d.\n",  bike->moto.data.day, bike->moto.data.month, bike->moto.data.year);
+}
+
+
+// Função para imprimir uma lista inteira de motos:
+void printList(list *lista)
+{
+    for(node *I = lista->inicio; I != NULL; I = I->proximo)
+    {
+        printBikeDetails(I);
+    }
+}
+
+
 
 int main()
 {
@@ -120,10 +148,13 @@ int main()
         switch (rUser){
             case 1:
                 system("cls");
-                printf("O==========================================O\n");
-                printf("| Você escolheu [1] Listar todas as motos. |\n");
-                printf("O==========================================O");
+                printf("O==========================================O\n| Você escolheu [1] Listar todas as motos. |\nO==========================================O\n\n");
 
+                if(bikeList->inicio==NULL){
+                    printf("Ainda não há motos na lista, portanto, não há nada para mostrar.");
+                }else{
+                    printList(bikeList);
+                }
 
             break;
 
