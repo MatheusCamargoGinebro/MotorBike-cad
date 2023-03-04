@@ -46,47 +46,7 @@ typedef struct
 } list;
 
 /*-------------------------------</> Functions </>-------------------------------*/
-void formater(node *stringer)
-{
-    int checker[5];
-    for (int I = 0; I < 5; I++)
-    {
-        checker[I] = 0;
-    }
-    for (int I = 0; I < 2048; I++)
-    {
-        if (checker[0] == 0 && (stringer->moto.fabricante[I] == '\n' || I == 127))
-        {
-            stringer->moto.fabricante[I] = '\0';
-            checker[0] = 1;
-        }
-        if (checker[1] == 0 && (stringer->moto.modelo[I] == '\n' || I == 127))
-        {
-            stringer->moto.modelo[I] = '\0';
-            checker[1] = 1;
-        }
-        if (checker[2] == 0 && (stringer->moto.cor[I] == '\n' || I == 63))
-        {
-            stringer->moto.cor[I] = '\0';
-            checker[2] = 1;
-        }
-        if (checker[3] == 0 && (stringer->moto.dono[I] == '\n' || I == 127))
-        {
-            stringer->moto.dono[I] = '\0';
-            checker[3] = 1;
-        }
-        if (checker[4] == 0 && (stringer->moto.problema[I] == '\n' || I == 2047))
-        {
-            stringer->moto.problema[I] = '\0';
-            checker[4] = 1;
-        }
 
-        if (checker[0] == 1 && checker[1] == 1 && checker[2] == 1 && checker[3] == 1 && checker[4] == 1)
-        {
-            break;
-        }
-    }
-}
 
 //+-====-----===-----====-+ Funções de exibição +-====-----===-----====-+/
 // Função para limpar a tela:
