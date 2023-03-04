@@ -41,8 +41,6 @@ typedef struct
     node *inicio;
 
     node *fim;
-
-    int cont;
 }list;
 
 
@@ -52,6 +50,48 @@ void proxtela(){
     printf("\n\n");
     system("pause");
     system("cls");
+}
+
+
+// Funções de modificação de lista.
+
+// Função para criar uma lista dinâmicamente:
+list *CreateList(){
+    
+    // Tentando declarar uma lista dinâmicamente:
+    list *lista = (list *)malloc(sizeof(list));
+
+    // Testando se a lista foi realmente criada:
+    if(lista == NULL)
+    { // Houve erro.
+        printf("Erro: problema no alocamento da memória para a lista.\n");
+        exit(1);
+    }else
+    { // Não houve erro! :D
+        // Definindo a lista como vazia.
+        lista->inicio == NULL;
+        lista->fim == NULL;
+
+        return lista;
+    }
+}
+
+// Função para limpar a lista:
+void ClearList(list *lista){
+    node *bike;
+
+    while(lista->inicio != NULL)
+    {
+        // Pegar o primeiro elemento da lista:
+        bike = lista->inicio;
+
+        // O próximo elemento da lista se torna o primeiro.
+        lista->inicio= bike->proximo;
+
+        // Tirando da memória.
+        free(bike);
+    }
+    free(lista);
 }
 
 int main()
@@ -76,6 +116,7 @@ int main()
 
         switch (rUser){
             case 1:
+                system("cls");
                 printf("O==========================================O\n");
                 printf("| Você escolheu [1] Listar todas as motos. |\n");
                 printf("O==========================================O");
@@ -84,6 +125,7 @@ int main()
             break;
 
             case 2:
+                system("cls");
                 printf("O========================================O\n");
                 printf("| Você escolheu [2] Cadastrar nova moto. |\n");
                 printf("O========================================O\n");
@@ -91,6 +133,7 @@ int main()
             break;
 
             case 3:
+                system("cls");
                 printf("O======================================O\n");
                 printf("| Você escolheu [3] Buscar por modelo. |\n");
                 printf("O======================================O\n");             
@@ -98,6 +141,7 @@ int main()
             break;
 
             case 4:
+                system("cls");
                 printf("O=====================================O\n");
                 printf("| Você escolheu [4] Sair do programa. |\n");
                 printf("O=====================================O\n");
@@ -105,7 +149,7 @@ int main()
             break;
             
             default:
-                printf("\n\nOpção inválida, escolha entre 1 e 4.");
+                printf("\nOpção inválida, escolha entre 1 e 4.");
                 
             break;
         }
