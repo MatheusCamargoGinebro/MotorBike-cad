@@ -98,6 +98,9 @@ int main()
 {
     setlocale(LC_ALL, "portuguese");
 
+    // Declarando a lista de motos:
+    list *bikeList = CreateList();
+
     //Variável de resposta.
     int rUser;
 
@@ -141,23 +144,21 @@ int main()
             break;
 
             case 4:
-                system("cls");
-                printf("O=====================================O\n");
-                printf("| Você escolheu [4] Sair do programa. |\n");
-                printf("O=====================================O\n");
+                printf("\nVocê escolheu sair do programa.\n\nlimpando a lista.\n\n");
+
+                ClearList(bikeList);
+
+                printf("Lista limpa.");
                 
             break;
             
             default:
                 printf("\nOpção inválida, escolha entre 1 e 4.");
-                
             break;
         }
     
         proxtela();
     } while (rUser!=4);
-    
-
 
     return 0;
 }
