@@ -212,11 +212,12 @@ int modelFinder(list *lista, char bikeToFind[], node *biketoEdit, int mode)
             {
                 biketoEdit->moto = I->moto;
             }
-            else
+            else if (mode == 2)
             {
                 I->moto = biketoEdit->moto;
             }
             verif = 1;
+            break;
         }
     }
 
@@ -266,23 +267,79 @@ int main()
             setbuf(stdin, NULL);
             fgets(newbike->moto.fabricante, 128, stdin);
 
-            printf("\nDigite o modelo da moto.\nR: ");
-            setbuf(stdin, NULL);
-            fgets(newbike->moto.modelo, 128, stdin);
+            for (int I = 0; I < 128; I++)
+            {
+                if (newbike->moto.fabricante[I] == '\n' || I == 127)
+                {
+                    newbike->moto.fabricante[I] = '\0';
+                    break;
+                }
+            }
+
+            do
+            {
+                verif = 0;
+                printf("\nDigite o modelo da moto.\nR: ");
+                setbuf(stdin, NULL);
+                fgets(newbike->moto.modelo, 128, stdin);
+
+                for (int I = 0; I < 128; I++)
+                {
+                    if (newbike->moto.modelo[I] == '\n' || I == 127)
+                    {
+                        newbike->moto.modelo[I] = '\0';
+                        break;
+                    }
+                }
+
+                if (modelFinder(bikeList, newbike->moto.modelo, newbike, 0) == 1)
+                {
+                    printf("\nModelo já cadastrado. Escolha outro modelo.\n");
+                    verif = 1;
+                }
+            } while (verif);
 
             printf("\nDigite a cor da sua moto.\nR: ");
             setbuf(stdin, NULL);
             fgets(newbike->moto.cor, 64, stdin);
 
+            for (int I = 0; I < 64; I++)
+            {
+                if (newbike->moto.cor[I] == '\n' || I == 64)
+                {
+                    newbike->moto.cor[I] = '\0';
+                    break;
+                }
+            }
+
             printf("\nDigite o nome do dono da moto.\nR: ");
             setbuf(stdin, NULL);
             fgets(newbike->moto.dono, 128, stdin);
+
+            for (int I = 0; I < 128; I++)
+            {
+                if (newbike->moto.dono[I] == '\n' || I == 127)
+                {
+                    newbike->moto.dono[I] = '\0';
+                    break;
+                }
+            }
 
             printf("\nDigite o problema que a moto deu.\nR: ");
             setbuf(stdin, NULL);
             fgets(newbike->moto.problema, 2048, stdin);
 
-            formater(newbike);
+            for (int I = 0; I < 2048; I++)
+            {
+                if (newbike->moto.problema[I] == '\n' || I == 2048)
+                {
+                    newbike->moto.problema[I] = '\0';
+                    break;
+                }
+            }
+
+            printf("\nDigite o ano da moto.\nR: ");
+            scanf("%d", &newbike->moto.ano);
 
             printf("\nDigite o número de cadastro da moto.\nR: ");
             scanf("%d", &newbike->moto.cadNum);
@@ -323,13 +380,14 @@ int main()
 
             if (modelFinder(bikeList, modelToFind, bikeEditor, 1) == 1)
             {
-                printf("\nMoto encontrada.\n");
+                printf("\nMoto encontrada:\n\n");
+                printBikeDetails(bikeEditor);
                 char rDecision;
 
                 do
                 {
-                    proxtela();
-                    printf("Deseja editar as informações da moto? [Y/N]\nR: ");
+                    printf("\nDeseja editar as informações da moto? [Y/N].\nR: ");
+                    setbuf(stdin, NULL);
                     scanf("%c", &rDecision);
 
                     if (rDecision == 'Y' || rDecision == 'y' || rDecision == 'S' || rDecision == 's')
@@ -342,10 +400,11 @@ int main()
                     }
                     else
                     {
-                        printf("Opção inválida. escolha entre [Y/N].\n");
+                        printf("\nOpção inválida. escolha entre [Y/N].\n");
                         verif = 0;
                     }
                 } while (verif == 0);
+
 
                 if (verif == 1)
                 {
@@ -353,20 +412,8 @@ int main()
 
                     do
                     {
-                        printf("O=====================================O\n");
-                        printf("|     Escolha o que deseja editar.    |\n");
-                        printf("O=====================================O\t Informações atuais da moto: \n");
-                        printf("|   [1] Número de cadastro.           |\t  Número de cadastro da moto: %d.\n", bikeEditor->moto.cadNum);
-                        printf("|   [2] Fabricante.                   |\t  Fabricante da moto: %s.\n", bikeEditor->moto.fabricante);
-                        printf("|   [3] Modelo.                       |\t  Modelo da moto: %s.\n", bikeEditor->moto.modelo);
-                        printf("|   [4] Cilindradas.                  |\t  Cilindradas da moto: %.1f.\n", bikeEditor->moto.cilindrada);
-                        printf("|   [5] Cor.                          |\t  Cor da moto: %s.\n", bikeEditor->moto.cor);
-                        printf("|   [6] Data de entrega na oficina.   |\t  Data em que a moto entrou na oficina: %d/%d/%d.\n", bikeEditor->moto.data.day, bikeEditor->moto.data.month, bikeEditor->moto.data.year);
-                        printf("|   [7] Ano.                          |\t  Ano de fabricação da moto: %d", bikeEditor->moto.ano);
-                        printf("|   [8] Nome do dono.                 |\t  Nome do dono da moto: %s.\n", bikeEditor->moto.dono);
-                        printf("|   [9] Problemas apresentados.       |\t  Problema que a moto apresentou: %s.\n", bikeEditor->moto.problema);
-                        printf("|   [10] Sair da edição.              |\t\n");
-                        printf("O=====================================O\n\nR: ");
+                        system("cls");
+                        printf("O=====================================O\n|     Escolha o que deseja editar.    |\nO=====================================O\t -Informações atuais da moto: \n|   [1] Número de cadastro.           |\t   Número de cadastro da moto: %d.\n|   [2] Fabricante.                   |\t   Fabricante da moto: %s.\n|   [3] Modelo.                       |\t   Modelo da moto: %s.\n|   [4] Cilindradas.                  |\t   Cilindradas da moto: %.1f.\n|   [5] Cor.                          |\t   Cor da moto: %s.\n|   [6] Data de entrega na oficina.   |\t   Data em que a moto entrou na oficina: %d/%d/%d.\n|   [7] Ano.                          |\t   Ano de fabricação da moto: %d\n|   [8] Nome do dono.                 |\t   Nome do dono da moto: %s.\n|   [9] Problemas apresentados.       |\t   Problema que a moto apresentou: %s.\n|   [10] Sair da edição.              |\t\nO=====================================O\n\nR: ", bikeEditor->moto.cadNum, bikeEditor->moto.fabricante, bikeEditor->moto.modelo, bikeEditor->moto.cilindrada, bikeEditor->moto.cor, bikeEditor->moto.data.day, bikeEditor->moto.data.month, bikeEditor->moto.data.year, bikeEditor->moto.ano, bikeEditor->moto.dono, bikeEditor->moto.problema);
 
                         scanf("%d", &rUser2);
 
@@ -393,27 +440,40 @@ int main()
                             break;
 
                         case 3:
-                            printf("\nDigite o novo modelo da moto.\nR: ");
-                            setbuf(stdin, NULL);
-                            fgets(bikeEditor->moto.modelo, 128, stdin);
-
-                            for (int I = 0; I < 128; I++)
+                            do
                             {
-                                if (bikeEditor->moto.modelo[I] == '\n' || I == 127)
+                                verif=0;
+                                printf("\nDigite o novo modelo da moto.\nR: ");
+                                setbuf(stdin, NULL);
+                                fgets(bikeEditor->moto.modelo, 128, stdin);
+
+                                for (int I = 0; I < 128; I++)
                                 {
-                                    bikeEditor->moto.modelo[I] = '\0';
-                                    break;
+                                    if (bikeEditor->moto.modelo[I] == '\n' || I == 127)
+                                    {
+                                        bikeEditor->moto.modelo[I] = '\0';
+                                        break;
+                                    }
                                 }
-                            }
+                                for (node *I = bikeList->inicio; I != NULL; I = I->proximo)
+                                {
+                                    if (strcmp(bikeEditor->moto.modelo, I->moto.modelo) == 0)
+                                    {
+                                        printf("\nModelo já cadastrado. Escolha outro modelo.\n");
+                                        verif=1;
+                                    }
+                                }
+                            } while (verif);
+
                             break;
 
                         case 4:
-                            printf("Digite a nova quantidade de cilindradas da moto.\nR: ");
+                            printf("\nDigite a nova quantidade de cilindradas da moto.\nR: ");
                             scanf("%f", &bikeEditor->moto.cilindrada);
                             break;
 
                         case 5:
-                            printf("Digite a nova cor da moto.\nR: ");
+                            printf("\nDigite a nova cor da moto.\nR: ");
                             setbuf(stdin, NULL);
                             fgets(bikeEditor->moto.cor, 64, stdin);
 
@@ -428,23 +488,23 @@ int main()
                             break;
 
                         case 6:
-                            printf("Digite o novo dia em que a moto foi entregue na oficina.\nR: ");
-                            scanf("%d", bikeEditor->moto.data.day);
+                            printf("\nDigite o novo dia em que a moto foi entregue na oficina.\nR: ");
+                            scanf("%d", &bikeEditor->moto.data.day);
 
-                            printf("Digite o novo mês em que a moto foi entregue na oficina.\nR: ");
-                            scanf("%d", bikeEditor->moto.data.month);
+                            printf("\nDigite o novo mês em que a moto foi entregue na oficina.\nR: ");
+                            scanf("%d", &bikeEditor->moto.data.month);
 
-                            printf("Digite o novo amp em que a moto foi entregue na oficina.\nR: ");
-                            scanf("%d", bikeEditor->moto.data.year);
+                            printf("\nDigite o novo amp em que a moto foi entregue na oficina.\nR: ");
+                            scanf("%d", &bikeEditor->moto.data.year);
                             break;
 
                         case 7:
-                            printf("Digite o novo ano da moto.\nR: ");
-                            scanf("%d", bikeEditor->moto.ano);
+                            printf("\nDigite o novo ano da moto.\nR: ");
+                            scanf("%d", &bikeEditor->moto.ano);
                             break;
 
                         case 8:
-                            printf("Digite o novo nome do dono da moto.\nR: ");
+                            printf("\nDigite o novo nome do dono da moto.\nR: ");
                             setbuf(stdin, NULL);
                             fgets(bikeEditor->moto.dono, 128, stdin);
 
@@ -459,7 +519,7 @@ int main()
                             break;
 
                         case 9:
-                            printf("Digite o novo problema da moto.\nR: ");
+                            printf("\nDigite o novo problema da moto.\nR: ");
                             setbuf(stdin, NULL);
                             fgets(bikeEditor->moto.problema, 2048, stdin);
 
@@ -475,19 +535,18 @@ int main()
 
                         case 10:
                             printf("\nVocê escolheu parar de editar. as informações modificadas serão salvas.\n");
+                            proxtela();
                             break;
 
                         default:
                             printf("\nOpção inválida. tente algo entre 9 e 10.\n");
+                            proxtela();
                             break;
                         }
-                        proxtela();
-                    } while (rUser != 10);
+                    } while (rUser2 != 10);
 
                     modelFinder(bikeList, modelToFind, bikeEditor, 2);
                 }
-
-                proxtela();
             }
             else
             {
