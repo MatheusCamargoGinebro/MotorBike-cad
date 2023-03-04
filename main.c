@@ -101,13 +101,18 @@ void proxtela(){
 
 // Função para mostrar apenas 1 moto:
 void printBikeDetails(node *bike){
-    printf("Número de cadastro da moto: %d\n", bike->moto.cadNum);
+    printf("O========================================----------------------\n");
+    printf("Bike Info:\n");
+    printf("Número de cadastro da moto: %d.\n", bike->moto.cadNum);
     printf("Fabricante da moto: %s.\n", bike->moto.fabricante);
     printf("Modelo da moto: %s.\n", bike->moto.modelo);
     printf("Cilindradas da moto: %.2f.\n", bike->moto.cilindrada);
+    printf("Cor da moto: %s.\n\n", bike->moto.cor);
+
+    printf("More details:\n");
     printf("Nome do dono da moto: %s.\n", bike->moto.dono);
-    printf("Problema que a moto apresentou: %s.\n", bike->moto.problema);
-    printf("Data em que a moto entrou na oficina: %d/%d/%d.\n",  bike->moto.data.day, bike->moto.data.month, bike->moto.data.year);
+    printf("Problema que a moto apresentou: %s.\n\n", bike->moto.problema);
+    printf("Data em que a moto entrou na oficina: %d/%d/%d.\n\n",  bike->moto.data.day, bike->moto.data.month, bike->moto.data.year);
 }
 
 
